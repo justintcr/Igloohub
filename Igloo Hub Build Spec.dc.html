@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><style>doc-page:not(:defined){visibility:hidden}</style><script src="./doc-page.js"></script></helmet>
+
+<doc-page margin="0.85in">
+<div style="font:700 9pt/1 'Roboto Mono',ui-monospace,monospace;letter-spacing:.16em;color:#036DB7">THE COOL ROOFING COMPANY</div>
+<h1 style="font:700 27pt/1.08 Calibri,'Segoe UI',system-ui,sans-serif;letter-spacing:-.02em;color:#1C2B36;margin:10pt 0 0">Igloo Hub — developer build spec</h1>
+<p style="font:400 12pt/1.55 Calibri,'Segoe UI',system-ui,sans-serif;color:#4A5A66;margin:10pt 0 0;max-width:34em">What has to be built to turn the working prototype into a shared app for seven people on iPhone, iPad and desktop. Written to be handed to a developer or a shop for a quote.</p>
+<div style="height:1px;background:#DCE6ED;margin:18pt 0"></div>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:0">1. What exists today</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">A single self-contained HTML file. It runs offline, holds all state in the device's local storage, and has no server, no accounts and no sync. Every screen, interaction and pricing rule described below is already built and working in that file — it is the functional specification. What is missing is everything that makes it shared.</p>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Screens: sign-in, Leads (lead list filtered to the signed-in rep, or all leads plus an unassigned queue and a create-lead form for the office, then qualifying answers and pre-call checklist per lead), Estimate (squares, facet count, complexity, live sale price per square at or above the hard PAR floor, add-on, seven packages, commission), Payment options (Service Finance plans, opened from the presentation when the customer asks), Present (customer-facing package layout, spec sheets, colour picking), Roofr handoff, Records, Office (leaderboard, production), Settings (connections, pricing grid, team).</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">2. Pricing rules the server must enforce</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">These currently live in the client. They must move server-side so a rep cannot alter them.</p>
+<ul style="font:400 11.5pt/1.65 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0;padding-left:18pt">
+<li>PAR per square is a direct input, not calculated from cost: 56 figures covering seven packages (five shingle — ProLam, Pristine, Sun, Impact, Storm; two metal — SS26, 29 Screw Down) × four complexity tiers (Simple, Moderate, Complex, Very Complex) × two square tiers (8–23 sq, 24+ sq). Store the raw figures. Several cells do not match the ×1.10 / ×1.20 / ×1.35 complexity pattern; the raw figure always wins.</li>
+<li>There is no fixed list price. PAR per square is a HARD FLOOR. The rep enters the actual sale price per square live, at or above PAR, with no cap and nothing to approve above it. No job may be sold below PAR under any approval, by anyone — enforce this server-side, not only in the client.</li>
+<li>Job price = sale price per square × squares + dollar add-on. Above PAR = job price − (PAR per square × squares).</li>
+<li>Rep commission = Above PAR × the rep's current tier percentage. Company keeps the remainder. There is no commission below PAR.</li>
+<li>Commission tier comes from the rep's own trailing 12-month signed volume, not team or company volume: $0–125K 55/45, 125–250K 60/40, 250–375K 65/35, 375–500K 70/30, 500–625K 75/25, 625–750K 80/20, 750–875K 85/15, $875K+ 90/10. Measured calendar-year-to-date and reset to the bottom tier on 1 January. The server computes the tier; the client never sets it.</li>
+<li>Base pay $150 per job to the selling rep, paid whether or not the job cleared PAR. A further $150 PM bonus if the same rep also project-manages the job, stacking to $300. The production manager assigns the PM, not the rep.</li>
+<li>Two-rep jobs split the rep's share 50/50, adjustable with manager approval.</li>
+<li>There is no discount-approval structure. The 0–5% / 5–8% / above-8% below-PAR tiers were removed on 28 August 2026 and must not be reintroduced. The approvals queue exists only for historical records written before the floor was enforced.</li>
+<li>Complexity is suggested from the Roofr facet count (Simple 2–4, Moderate 5–8, Complex 9–13, Very Complex 14+) and the rep can override it. <strong>These facet bands are a starting assumption and need David Henry's confirmation.</strong></li>
+<li>Company overhead sits outside PAR and never appears on a rep screen: vehicle package $283.25 per job, company PM overhead $225 per job ($150 + $75 burden). Distinct from the rep's $150 PM bonus.</li>
+<li>Metal packages are hidden by default and shown on request; shingles are the default presentation.</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">3. Roles and permissions</h2>
+<table style="width:100%;border-collapse:collapse;margin-top:8pt;font:400 10.5pt/1.45 Calibri,'Segoe UI',system-ui,sans-serif">
+<thead>
+<tr>
+<th style="text-align:left;padding:7pt 8pt;border-bottom:1.5px solid #04508E;font:700 8.5pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.1em;color:#04508E">ROLE</th>
+<th style="text-align:left;padding:7pt 8pt;border-bottom:1.5px solid #04508E;font:700 8.5pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.1em;color:#04508E">SEES</th>
+<th style="text-align:left;padding:7pt 8pt;border-bottom:1.5px solid #04508E;font:700 8.5pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.1em;color:#04508E">CANNOT</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Sales rep</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Today, Estimate, Guide, own Records. Own commission figures, own tier, PAR floor per package.</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">See company overhead lines, other reps' records or tiers, or sell below the PAR floor.</td></tr>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Business development manager</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Everything a rep sees, plus all records, approvals, leaderboard, production. No discount-approval role — PAR is a hard floor.</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Edit the PAR grid. Authorise a sale below PAR (nobody can).</td></tr>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Owner / admin</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Everything, plus the PAR grid, company overhead lines, commission tiers and team management. Cannot authorise a sale below PAR either — the floor is absolute.</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">—</td></tr>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Office admin</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Records, production and leaderboard (read-only).</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Write estimates, see commission, edit pricing.</td></tr>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Production manager</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">The job board and crew load. Moves jobs through the stages. Records read-only.</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Write estimates, see pricing or commission. Assigns the PM on a job, which releases the rep's $150 PM bonus. Move a job out of Awaiting deposit before finance clears it.</td></tr>
+<tr><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3;font-weight:700">Finance &amp; office admin</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Deposits, commission payable, below-PAR exception list, PAR floors and overhead lines. Marks deposits received. Board and records read-only.</td><td style="padding:7pt 8pt;border-bottom:1px solid #E9EFF3">Write estimates, edit the pricing grid, move jobs.</td></tr>
+</tbody>
+</table>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">4. Authentication</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Company code plus a four-digit personal PIN, chosen for speed on a job site. The company code is a device-level setting entered once and remembered; the PIN identifies the person. Treat the PIN as a second factor on a trusted device, not as a password: rate-limit attempts, lock after five failures, and require an admin to reset. Sessions persist until explicit sign-out so a rep is never locked out mid-appointment. Seven users at launch across six roles; the model should not assume either number.</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">5. Data model</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Eight tables carry everything the prototype holds.</p>
+<ul style="font:400 11.5pt/1.65 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0;padding-left:18pt">
+<li><strong>users</strong> — name, role, PIN hash, active flag, CompanyCam token reference.</li>
+<li><strong>packages</strong> — the seven products: name, product name, category (shingle or metal), kicker, selling points, spec rows, colour list.</li>
+<li><strong>par_grid</strong> — package, complexity tier, square tier, PAR per square. 56 rows. The smallest priced job is 8 squares; the estimator will not go below it.</li>
+<li><strong>par_grid note</strong> — Versioned: a change creates a new version rather than overwriting, so a presented estimate can always be re-read at the PAR it was quoted against.</li>
+<li><strong>commission_tiers</strong> — volume band, rep percent, company percent. Effective-dated, since the ladder resets each January.</li>
+<li><strong>rep_volume</strong> — derived, not entered: each rep's calendar-year-to-date signed total, recomputed on every signature. Resets to zero on 1 January, which drops every rep back to the 55/45 tier.</li>
+<li><strong>settings</strong> — deposit percentage (50% at signing), base pay, PM bonus, vehicle package, company PM overhead, Service Finance APR per term. No discount or approval thresholds.</li>
+<li><strong>financing</strong> — lender is Service Finance Company, LLC. Six plans: 3, 6 and 12 month same-as-cash (no rate needed, payment is job price ÷ term) and 60, 84 and 120 month fixed-payment terms. The long terms show no monthly figure at all until an APR is entered in Settings, so no rep can quote an invented payment. Financed amount is the full job price; the 50% deposit is paid from the loan. Every monthly figure carries "Estimated payment, subject to credit approval." The app does not submit applications — the rep does that in the Service Finance portal.</li>
+<li><strong>leads</strong> — the intake table and the app's front door. Customer name, property address, phone, source (Google Ads, Referral, Door knock, Repeat customer, Storm / insurance, Website, Called in), date received, status (New, Contacted, Appointment set, Presented, Signed, Lost), assigned rep, appointment time once set, Roofr report number, squares from that report, qualifying answers, pre-call checklist state. A lead becomes a record when the rep presents; the record keeps the lead id so source-to-sale reporting works.</li>
+<li><strong>Lead assignment</strong> — the office (Cindy DePree, Jennifer Henry) and admins can create leads, assign them to any selling rep, reassign, unassign, and change status. A rep sees only leads assigned to them and can change status but not assignment. This is the permission that most needs the server: assignment is worthless if it does not appear on the rep's own device.</li>
+<li><strong>records</strong> — the master file. Record number, status (Presented / Signed / Lost), timestamps, address, customer, rep, Roofr report, pricing grid version, squares, facet count, complexity tier, PAR per square as quoted, sale price per square, above-PAR dollars, rep tier percent at signature, base pay, PM bonus flag, add-on, all package prices as quoted, chosen package, colour, total, deposit, notes, parent record for duplicates.</li>
+<li><strong>approvals</strong> — retained for historical records only: record, requested percent below PAR, reason, requesting rep, decision, decider, decided-at. No new rows are created under the hard-floor model.</li>
+<li><strong>jobs</strong> — production: record reference, stage (awaiting deposit / permit / materials / scheduled / on site / complete), crew, scheduled date, deposit received flag and date. A job cannot leave Awaiting deposit until finance marks the deposit received — enforce that server-side, not in the client.</li>
+<li><strong>sync_queue</strong> — per device: pending writes with client timestamps, for the offline path.</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">4b. Live data and the Performance tab — 2 September 2026</h2>
+<ul style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:6pt 0 0;padding-left:16pt">
+<li><strong>All demo data removed.</strong> The seeded leads, jobs, records and leaderboard figures are gone. Tracking starts 1 September 2026; anything dated earlier is ignored even if it exists on a device.</li>
+<li><strong>Every screen now derives from real records.</strong> The Jobs board, Finance deposits, Office leaderboard, Performance tab and the worksheet all compute from signed records on that device rather than from fixed sample arrays. Empty screens carry a short note explaining they fill in as work is recorded.</li>
+<li><strong>Stored test data is discarded on upgrade.</strong> A data-version marker clears anything saved by an earlier build, so devices that were used for testing start clean without anyone clearing them by hand.</li>
+<li><strong>Performance tab</strong> for David, Justin, Dawson and Jennifer only. Three periods — this week, this month, since 1 September. Sales figures (revenue, above PAR, close rate, average job, average per square, presented-without-decision), a per-salesperson breakdown, money (deposits collected and outstanding, oldest unpaid, open contract value) and the production pipeline by stage.</li>
+<li><strong>Weekly hand-off to finance.</strong> Because there is no shared database, each device tracks only its own work. The Performance tab and the rep worksheet each carry an email action that opens a pre-filled message to a finance address, held on the device, listing the week's signed jobs with squares, complexity, total and deposit due, plus a CSV download of the same week to attach. The week is clamped to 1 September, so a period straddling the start date cannot report pre-tracking work.</li>
+<li><strong>Record numbering</strong> continues from CRC-1041. <em>Confirm whether it should restart.</em></li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">4c. Metal packages — decisions taken 3 September 2026</h2>
+<ul style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:6pt 0 0;padding-left:16pt">
+<li><strong>Renamed</strong> — SS26 is now "26GA Standing Seam Metal" and 29 Screw Down is "Tuff-Rib Metal" at every title placement. Compact controls keep the short labels Standing Seam and Tuff-Rib.</li>
+<li><strong>24 ABC Supply colours</strong> on both metal packages, cropped from the supplied colour card. The card's own disclaimer is carried in the app: colours are an approximation and secondary panels may not match.</li>
+<li><strong>Gauge is recorded, not priced</strong> — 26 GA standard on standing seam (24 GA available), 29 GA standard on Tuff-Rib (26 GA available). Standing seam cover width defaults to 16" with 12" available.</li>
+<li><strong>Steep-pitch upcharge</strong> starts at a 6/12 and rises linearly to a 24/12: $100 per square at 6/12, $131 at 10/12, $240 at 24/12 and above. Added to metal PAR per square, so it lifts the floor rather than the rep's margin. <em>Confirm the per-square basis.</em></li>
+<li><strong>Metal complexity comes from pitch, not facets</strong> — 4/12 and under Simple, 5–7 Moderate, 8–11 Complex, 12/12 and up Very Complex. Shingles still use the facet bands. <em>Bands are my proposal, unconfirmed.</em></li>
+<li><strong>Trim counts</strong> — nine TUFF-RIB items counted in whole sticks, rounded up, no overlap allowance: ridge cap (10'6", from ridges + hips), "W" valley (10'), drip edge (10'), 2x4 drip edge (10'6"), rake trim (10'), sidewall and endwall (10'), fascia (10'), corners and siding trim (manual). Counts are for ordering only; trim is inside the metal PAR price.</li>
+<li><strong>Warranty</strong> — limited lifetime paint warranty, WeatherXL by Sherwin-Williams coil coatings, supplied through ABC Supply, United Steel Supply and JD Metals.</li>
+<li><strong>Still outstanding</strong> — roof photos and manufacturer logos for the two metal presentation cards, and confirmation of the pitch complexity bands.</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">5. Service Finance plans — decisions taken 2 September 2026</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Built from the Amended and Restated SFC Pricing Matrix dated 8 November 2023, using the 21 plans Justin highlighted. The unhighlighted 3000-series (zero interest with equal monthly payments) is deliberately excluded.</p>
+<ul style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:6pt 0 0;padding-left:16pt">
+<li><strong>Dealer fee is split 50/50</strong> between the company and the rep. The rep's half is deducted from their above-PAR commission on the worksheet; the company carries the other half. PAR itself is unchanged.</li>
+<li><strong>The fee percentage is never shown to reps or customers.</strong> It appears only on the admin Settings → Financing plan table. The worksheet shows the rep a dollar deduction, not the percentage or the plan's fee rate.</li>
+<li><strong>Lead plans</strong> — 2012 (12 months same as cash), 4212 (9.99% / 60), 4132 (9.99% / 120, zero dealer fee), 4107 (9.99% / 180, lowest payment), plus 41232 marked "our best option". All 21 are available behind a show-all toggle.</li>
+<li><strong>Plan 41232</strong> — 12 months no interest no payment, then 120 months at 9.99%. Handwritten on the rate sheet and not in the printed matrix. Dealer fee 5.00%, confirmed by Justin.</li>
+<li><strong>FEMA plans</strong> (4398, 4316, 4612, 4632) are always visible, not gated behind a storm flag. They carry lower dealer fees and reps are steered toward them by ordering, not by exposing the fee.</li>
+<li><strong>Payments</strong> — 4000-series uses the published payment factor; FEMA plans amortise over the term at the stated rate after the promotional months; same-as-cash plans show the balance due rather than a monthly figure; deferred-interest plans (1006, 1012, 1018) estimate the minimum payment at 1.75% of the balance, since the matrix gives no factor. <em>Confirm the 1.75% with Service Finance.</em></li>
+<li><strong>Amount financed</strong> is entered by the rep, defaulting to the full job price. Plans the amount does not qualify for are greyed with the reason shown, not hidden — minimums are $500, $1,000 or $3,000, and plans 4092 and 4116 cap at $40,000.</li>
+<li><strong>Applications stay outside the app.</strong> The rep completes them in the Service Finance portal. Disclosure on every payment: "Estimated payment, subject to credit approval."</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">5a. Commission worksheet — decisions taken 31 August 2026</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Digitises the paper Job Commission Worksheet as a WORKSHEET tab. Confirmed by Justin Lee against CoolRoofingCo_CommissionWorksheet_AppSpec.docx.</p>
+<ul style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:6pt 0 0;padding-left:16pt">
+<li><strong>Pay period</strong> — weekly, Monday to Sunday, ten jobs maximum per period, matching the paper form.</li>
+<li><strong>Row sources</strong> — jobs the rep has already signed in the app appear automatically, tagged "from signed record". Anything not in the app is added by hand and tagged "entered by hand".</li>
+<li><strong>Commission pays on sold squares</strong> at the contracted price, not on ended squares measured at completion. Above-PAR = (sale price/sq − PAR/sq) × sold squares.</li>
+<li><strong>Complexity is a plain dropdown</strong> on the worksheet — Simple, Moderate, Complex, Very Complex — chosen by the rep. The estimator still derives it from facet count; the worksheet does not.</li>
+<li><strong>PAR is read-only for reps</strong>, overridable by admins. Sale price below PAR blocks submission outright.</li>
+<li><strong>Every calculated field can be typed over.</strong> Any hand-edited row carries a tag naming who changed it, so the number that departed from the calculation is visible at a glance.</li>
+<li><strong>Starting cumulative sales</strong> carries forward from signed volume earlier in the calendar year; admins can correct it, and the correction is labelled as such.</li>
+<li><strong>Approval</strong> — rep submits the week, admins approve for payroll or reopen it. A submitted week is read-only to the rep.</li>
+<li><strong>Access</strong> — David Henry, Justin Lee, Dawson Henry and Jennifer Henry all hold full admin app-wide, every tab. Cindy DePree can enter and submit worksheets on behalf of any rep. Reps see only their own. No new logins; seven stands.</li>
+<li><strong>Not on the phone layout</strong> — the worksheet is an iPad and desktop screen; the phone keeps the five field tabs.</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">5b. Backend decisions taken 29 August 2026</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Confirmed by Justin Lee. Who builds it is still with David Henry, so these are the constraints for whoever takes it on, not a schedule.</p>
+<ul style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:6pt 0 0;padding-left:16pt">
+<li><strong>Recommended platform</strong> — Supabase (Postgres). The data is relational, row-level security maps onto the seven roles already specified, and the PAR floor can be a database constraint rather than an app rule. Firestore was considered and set aside: the data shape is relational, not document-based.</li>
+<li><strong>Version one scope</strong> — records only: estimates and signed jobs, shared across devices. Leads, the jobs board, Finance and server-computed commission tiers all stay local for now. Consequence to accept: Cindy's lead assignment will not cross devices in version one, so lead handoff stays a phone call or text until a later phase.</li>
+<li><strong>Authentication</strong> — email and password on desktop, four-digit PIN on the shared iPads. The PIN must be verified server-side against the user record; it may not remain a literal in the page source as it is today.</li>
+<li><strong>Data migration</strong> — none. Start clean from launch day. Commission tiers therefore begin every rep at 55/45 and build from real signed volume, which is the intended behaviour, not a gap.</li>
+<li><strong>Integrations in version one</strong> — CompanyCam photo pull into the inspection. Service Finance stays manual: the app shows plans and payments, the rep completes the application in the lender portal. Roofr job creation, QuickBooks and Google Ads source tracking are explicitly out of version one.</li>
+<li><strong>Running cost</strong> — Supabase free tier is sufficient for seven users; budget $25/month once real contracts are held and daily backups matter. Netlify hosting free. Domain roughly $12/year.</li>
+</ul>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">6. Offline and sync</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Everything must work with no signal: pricing, presenting, the Roofr handoff, photos, notes. Writes queue locally and flush when connectivity returns. The rule the owner chose for conflicts is <strong>office wins, warn the rep</strong>: if the pricing grid changed while a rep was offline, the server's version stands and the rep is told which numbers moved. A record already marked Presented keeps its quoted prices regardless — it references the grid version it was written against.</p>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Record numbers are assigned by the server. Offline records need a client-side provisional identifier that the server reconciles on flush, so two reps offline at once cannot collide.</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">7. CompanyCam integration</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">CompanyCam has a REST Core API covering projects and photos, with webhooks. Authentication is the OAuth 2.0 authorization code grant, which issues an access token and a refresh token through the user's browser. Each rep connects their own account from Settings; the app stores tokens per user and refreshes them. API access requires a Pro, Premium or Elite plan. The legacy API retires 1 September 2027 — build against the current one.</p>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Three behaviours are needed. Pull the photos for a project into the Evidence step of the sales guide, matched to the appointment address. Attach those photos to the record so the office can see them. And let the rep shoot from inside the app, posting straight to the CompanyCam project. Offline: photos are captured locally and uploaded when signal returns.</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">8. Roofr integration</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Roofr has no public API. Zapier is the only programmatic surface, and it exposes just two actions — Create Job and Create Customer — alongside triggers for proposal events. There is nothing to sign into and no way to pull measurement reports automatically.</p>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">The company runs one Roofr account. Roofr stays the CRM, the source of measurement reports, and where the contract is signed. Igloo Hub owns the pricing conversation and the records file. The report number is entered on the appointment and stored on the record so the two sides tie together. On signature, a Zapier hook creates the Job and Customer in Roofr. Revisit if Roofr ever ships an API.</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">9. Delivery across devices</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">One installable web app served from the company's own domain, not an App Store submission. On iPhone and iPad it is added to the Home Screen and runs full screen with a service worker for offline; on desktop it is a browser tab. The prototype already ships as a working installable build with icons, manifest and offline cache, so this is a hosting and login problem rather than a rebuild.</p>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Layout targets: iPad landscape is the primary surface and the customer presentation is designed for it. Desktop is used by the office for approvals, by the owner for the leaderboard and margins, and by an admin for the pricing grid. iPhone is a rep's day view and lookup, not the presentation.</p>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">10. Suggested stack and sequence</h2>
+<p style="font:400 11.5pt/1.6 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0">Supabase or Firebase covers the database, auth and hosting without standing up servers. Row-level security enforces the role table. A small server function holds the pricing maths and the approval thresholds so the client never computes an authoritative price.</p>
+<ol style="font:400 11.5pt/1.65 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0;padding-left:18pt">
+<li>Database, roles, PIN auth, hosting on the company domain. The existing prototype points at it.</li>
+<li>Records and the pricing grid become server-owned and versioned. Offline queue and the office-wins conflict rule.</li>
+<li>CompanyCam OAuth, photo pull, in-app capture.</li>
+<li>Zapier hook to Roofr. CSV export becomes a server report.</li>
+<li>Desktop-specific layouts for approvals, leaderboard and grid editing.</li>
+</ol>
+
+<h2 style="font:700 15pt/1.2 Calibri,'Segoe UI',system-ui,sans-serif;color:#04508E;margin:20pt 0 0">11. Open items</h2>
+<ul style="font:400 11.5pt/1.65 Calibri,'Segoe UI',system-ui,sans-serif;color:#1C2B36;margin:8pt 0 0;padding-left:18pt">
+<li>The True PAR buffer is provisional at 12%. Confirm the real figure before launch — every commission number moves with it.</li>
+<li>Pristine now carries all thirteen Pinnacle Pristine colours with photographed swatches. Metal colour charts for SS26 and 29 Screw Down have not been supplied at all.</li>
+<li>Financing is listed as a tool the company does not yet have, so no monthly payment figures appear anywhere.</li>
+<li>Deposit is 50% at signing, recorded rather than collected. In-app card payment was not requested.</li>
+<li>Appointments and production jobs are sample data. Confirm whether appointments come from Roofr, a calendar, or manual entry.</li>
+<li>Crews are named A, B and C. Confirm the real crew names and whether they are assigned per job or per day.</li>
+<li>Commission is shown as payable on signed jobs. Confirm whether it is paid at signing, at completion, or on final payment.</li>
+</ul>
+</doc-page>
+</x-dc>
+</body>
+</html>

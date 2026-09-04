@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet"></link>
+<script src="doc-page.js"></script>
+<style>
+  body { margin: 0; background: #EEF2F5; }
+  a { color: #04508E; }
+  a:hover { color: #036DB7; }
+</style>
+</helmet>
+
+<doc-page size="letter">
+<div slot="header" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid #D8E2EA;padding-bottom:6pt;font:700 7.5pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.13em;color:#8A9AA6">
+<div>IGLOO HUB — SUPABASE SETUP</div>
+<div>4 SEPTEMBER 2026</div>
+</div>
+
+<h1 style="font:700 24pt/1.1 Newsreader,Georgia,serif;color:#0F2231;letter-spacing:-.015em;margin:24pt 0 0">Setting up the database</h1>
+<div style="font:400 12pt/1.45 Newsreader,Georgia,serif;color:#4A5A66;margin-top:6pt;max-width:34em">Fifteen minutes, all in a browser. No code to write. Your part is six steps; mine is everything after.</div>
+
+<div style="border-left:3pt solid #036DB7;background:#F4F8FB;padding:10pt 13pt;margin-top:14pt">
+<div style="font:700 8pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.13em;color:#036DB7">BEFORE YOU START</div>
+<div style="font:400 10.5pt/1.5 Newsreader,Georgia,serif;color:#1C2B36;margin-top:5pt">Do this on a computer, not the iPad. Have your work email to hand. Nothing here costs money — the free tier covers seven users comfortably.</div>
+</div>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:18pt 0 0">Step 1 — Create the account</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">Go to <strong>supabase.com</strong> and click <strong>Start your project</strong>. Sign in with an email address or a GitHub account if you have one. Use a company email rather than a personal one — this account owns the company's data, and you want it to survive someone leaving.</p>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">Step 2 — Create the project</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">Click <strong>New project</strong>. Four things to fill in:</p>
+<table style="width:100%;border-collapse:collapse;margin-top:7pt;font:400 10pt Newsreader,Georgia,serif">
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;white-space:nowrap;vertical-align:top">Name</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3"><code style="font:400 9.5pt 'Roboto Mono',ui-monospace,monospace;background:#F2F6F9;padding:1pt 4pt">igloo-hub</code></td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;white-space:nowrap;vertical-align:top">Database password</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3">Click <strong>Generate a password</strong> and save it in your password manager. You will almost never need it, but it cannot be recovered — only reset.</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;white-space:nowrap;vertical-align:top">Region</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3"><strong>East US</strong>. Closest to North Carolina, and it keeps company data on US soil.</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;white-space:nowrap;vertical-align:top">Plan</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3"><strong>Free</strong>. You can move up later without rebuilding anything.</td></tr>
+</table>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em">Click <strong>Create new project</strong> and give it a minute or two to build.</p>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">Step 3 — Build the tables</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">In the left sidebar click <strong>SQL Editor</strong>, then <strong>New query</strong>. Paste in the script I will send you separately, and click <strong>Run</strong>. It creates six tables — records, leads, worksheets, worksheet rows, job status and team — and takes about a second.</p>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:6pt 0 0;max-width:36em">You will see <em>Success. No rows returned</em>. That is what success looks like for this kind of script — it built things rather than looked something up.</p>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">Step 4 — Add the seven accounts</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">Click <strong>Authentication</strong> in the sidebar, then <strong>Add user</strong> → <strong>Create new user</strong>. Do this seven times, once per person, using their work email and a temporary password you give them.</p>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:6pt 0 0;max-width:36em">Each person signs in with email and password <em>once</em> on their device. After that the four-digit PIN unlocks the app as it does now. This matters: it is what stops one rep reading another rep's records, and it is why the app can safely hold customer data on a server.</p>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">Step 5 — Copy the two keys</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">In the sidebar go to <strong>Project Settings</strong> → <strong>Data API</strong>. Two values to copy:</p>
+<ul style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:6pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:3pt"><strong>Project URL</strong> — looks like <code style="font:400 9pt 'Roboto Mono',ui-monospace,monospace;background:#F2F6F9;padding:1pt 4pt">https://abcdefgh.supabase.co</code></li>
+<li style="margin-top:3pt"><strong>anon public key</strong> — a long string starting <code style="font:400 9pt 'Roboto Mono',ui-monospace,monospace;background:#F2F6F9;padding:1pt 4pt">eyJ...</code></li>
+</ul>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:6pt 0 0;max-width:36em">Send me both. The anon key is designed to be public and is safe to put in the app — it is the accounts and the table rules that protect the data, not secrecy of that key.</p>
+<div style="border-left:3pt solid #B4453F;background:#FBF4F4;padding:9pt 13pt;margin-top:9pt">
+<div style="font:700 8pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.13em;color:#B4453F">DO NOT SEND</div>
+<div style="font:400 10.5pt/1.5 Newsreader,Georgia,serif;color:#1C2B36;margin-top:4pt">On the same page there is a <strong>service_role</strong> key. That one bypasses every security rule. Never put it in the app, never email it, never paste it into a chat.</div>
+</div>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">Step 6 — Hand it back to me</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">I wire the app to your project, redeploy, and every screen starts reading and writing to the shared database instead of the device. Records, leads, worksheets and the jobs board all sync. The app keeps working with no signal — it writes locally first and pushes when the connection returns.</p>
+
+<div style="height:1px;background:#D8E2EA;margin:18pt 0 0"></div>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">What this does and does not fix</h2>
+<table style="width:100%;border-collapse:collapse;margin-top:7pt;font:400 10pt Newsreader,Georgia,serif">
+<tr><td style="padding:6pt 10pt 6pt 0;border-bottom:1px solid #E9EFF3;vertical-align:top;font-weight:700;color:#2E7D52;white-space:nowrap">Fixed</td><td style="padding:6pt 0;border-bottom:1px solid #E9EFF3">Records visible on every device. Jennifer sees worksheets without the email. Leads Cindy assigns appear on rep iPads. Dawson's jobs board updates live. Metrics show real company totals.</td></tr>
+<tr><td style="padding:6pt 10pt 6pt 0;border-bottom:1px solid #E9EFF3;vertical-align:top;font-weight:700;color:#B4453F;white-space:nowrap">Still open</td><td style="padding:6pt 0;border-bottom:1px solid #E9EFF3">Photos and signed contracts stored centrally. Roofr leads flowing in automatically. Both are the next stage, not this one.</td></tr>
+</table>
+
+<h2 style="font:700 13pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:16pt 0 0">The honest risk</h2>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:5pt 0 0;max-width:36em">I cannot test against your live project from where I work — I can only verify the code is correct, not that your project is wired up right. So set aside an hour with me on Monday or Tuesday to shake out anything that misbehaves before Wednesday. Doing this with two days of slack is fine; doing it the night before would not be.</p>
+<p style="font:400 10.5pt/1.55 Newsreader,Georgia,serif;color:#1C2B36;margin:6pt 0 0;max-width:36em">Worth knowing: once records live on a server, you are holding customer names, addresses and signed contracts off-device. Worth a word with whoever handles your insurance.</p>
+
+<div style="height:1px;background:#D8E2EA;margin:18pt 0 0"></div>
+<p style="font:400 9.5pt/1.5 Newsreader,Georgia,serif;color:#8A9AA6;margin:8pt 0 0;max-width:36em">Free tier covers 500MB of database, 50,000 monthly users and 1GB of file storage. For seven people and a few hundred jobs a year you will not approach it. If you do, the next tier is about $25 a month.</p>
+</doc-page>
+</x-dc>
+</body>
+</html>

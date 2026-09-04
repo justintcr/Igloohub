@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet"></link>
+<script src="doc-page.js"></script>
+<style>
+  body { margin: 0; background: #EEF2F5; }
+  a { color: #04508E; }
+  a:hover { color: #036DB7; }
+</style>
+</helmet>
+
+<doc-page size="letter">
+<div slot="header" style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid #D8E2EA;padding-bottom:6pt;font:700 7.5pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.13em;color:#8A9AA6">
+<div>IGLOO HUB — BUILD LOG</div>
+<div>THE COOL ROOFING CO.</div>
+</div>
+
+<div style="font:700 8pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.16em;color:#036DB7">PREPARED FOR DAVID HENRY</div>
+<h1 style="font:700 27pt/1.1 Newsreader,Georgia,serif;color:#0F2231;letter-spacing:-.015em;margin:9pt 0 0">Igloo Hub</h1>
+<div style="font:400 13pt/1.45 Newsreader,Georgia,serif;color:#4A5A66;margin-top:7pt;max-width:34em">What was built, what it does, and what is still open. Covering the work from the first iPad estimator through the current live-start build.</div>
+<div style="font:700 8pt 'Roboto Mono',ui-monospace,monospace;letter-spacing:.13em;color:#8A9AA6;margin-top:14pt">4 SEPTEMBER 2026 · BUILD v103</div>
+
+<div style="height:1px;background:#D8E2EA;margin:20pt 0 0"></div>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Where it started, where it is</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Igloo Hub began as an iPad estimator for the sales team. It is now a role-based platform covering the whole job from the lead landing in the office through pricing, the customer presentation, signature, production hand-off and commission. Seven people have their own login and see only the screens their job needs.</p>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">It runs offline, installs to the home screen like an app, and is deployed to Netlify. Everything below is working today unless the Open items section says otherwise.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">The pricing engine</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Seven marketed packages, each built on a real product and priced from the PAR grid dated 28 August.</p>
+<table style="width:100%;border-collapse:collapse;margin-top:9pt;font:400 9.5pt Newsreader,Georgia,serif">
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Sentinel Select</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">26GA Standing Seam Metal (WeatherXL)</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Titan</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">Tuff-Rib Metal (WeatherX)</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Legacy</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">StormMaster® Shake Shingle Package</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Fortress</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">Pinnacle® Impact Shingle Package</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Stronghold</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">Pinnacle® Sun Shingle Package</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Guardian</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">Pinnacle® Pristine Shingle Package — default recommendation</td></tr>
+<tr><td style="padding:5pt 8pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700;color:#04508E;white-space:nowrap">Foundation</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#1C2B36">ProLam® Shingle Package</td></tr>
+</table>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:11pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>PAR is a hard floor.</strong> The estimator will not price below it. There is no discount field and no approval queue — the floor is the control.</li>
+<li style="margin-top:4pt"><strong>Complexity</strong> comes from facet count on shingles (2–4 Simple, 5–8 Moderate, 9–13 Complex, 14+ Very Complex) and from pitch on metal.</li>
+<li style="margin-top:4pt"><strong>Squares tier</strong> changes at 24 squares. Under 24 prices higher per square.</li>
+<li style="margin-top:4pt"><strong>Steep-pitch upcharge</strong> on metal runs from a 6/12 at $100 per square to a 24/12 at $240, scaled across the range.</li>
+<li style="margin-top:4pt"><strong>Layer upcharge</strong> adds $65 per square at two layers and $115 at three, onto PAR on every package, so a tear-off cannot be sold at single-layer pricing.</li>
+<li style="margin-top:4pt"><strong>Extras</strong> are added at cost. They raise the customer price but do not move PAR and are not commissionable.</li>
+<li style="margin-top:4pt"><strong>One rate per package.</strong> The per-package upcharge set on 4 September is folded into the grid itself, so the figure an admin sees in Settings is the figure the estimate prices at — Sentinel Select $1,343 a square on a simple 8–23 square roof, Legacy $659, Foundation $445.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Commission</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Everything above PAR is what the job earned. The rep's share of that rises with their signed volume for the calendar year, starting at 55/45 and reaching 90/10, resetting on 1 January.</p>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Base pay is added on top and now varies by package, paid on each signed job and untouched by the tier ladder: Sentinel Select $300, Titan $250, Legacy $225, Fortress $200, Stronghold $175, Guardian $150, Foundation $100. It shows as a column of the pricing grid in Settings.</p>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Reps do not see their tier percentage or their commission figure on the estimate. They see PAR, dollars above PAR, and the percentage over the floor. The full figures appear on their own commission worksheet and to management.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">The estimator</h2>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>Roofr report intake.</strong> A measurement PDF can be dropped in or a file chosen, and the squares, facets, eaves, rakes, valleys, hips and ridges pull through. Everything stays editable in the field.</li>
+<li style="margin-top:4pt"><strong>Shingle accessories from the measurements.</strong> Starter bundles at 140 feet of eave and rake per bundle; hip and ridge at 30 feet per bundle, three bundles to the square.</li>
+<li style="margin-top:4pt"><strong>Setup row</strong> — pitch from a 1/12 to 24/12 dropdown, existing layers, and a vaulted-ceiling flag, all carried onto the record. Two layers add $65 a square to PAR and three add $115, on every package.</li>
+<li style="margin-top:4pt"><strong>Live sale price per square</strong> on every package, with an apply-to-all toggle that moves every shown package to the same percentage over its own PAR.</li>
+<li style="margin-top:4pt"><strong>Packages sort dearest first</strong>, so metal sits above the shingle lines when added.</li>
+<li style="margin-top:4pt"><strong>Extras</strong> — ice and water shield at $185 per roll covering two squares, high-temp at $235, OSB decking at $65 per sheet supplied and installed, plus siding trim. Collapsed until needed.</li>
+<li style="margin-top:4pt"><strong>Roof length measurements</strong> moved to the foot of the sheet behind a toggle. Gauge and cover width appear only when metal is being quoted.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">The customer presentation</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">A full-screen side-by-side comparison the rep hands to the homeowner. Five columns by default under the heading "Protect Your Biggest Asset", each with a product photo, the manufacturer logo, five selling points, the price and a Choose button. Selecting a package turns that whole column navy.</p>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>Colour selection</strong> per package from the real Southeast colour charts, with photographic swatches. Choosing a colour replaces that column's photo with the roof in that colour, and deselecting restores the default.</li>
+<li style="margin-top:4pt"><strong>Spec sheet</strong> per package, opened from the column.</li>
+<li style="margin-top:4pt"><strong>Financing screen</strong> the rep opens when the customer asks.</li>
+<li style="margin-top:4pt"><strong>Signature capture</strong>, then a written confirmation with the CARES seal.</li>
+<li style="margin-top:4pt">The layout auto-fits to the iPad it is running on, stepping photo, logo and bullet sizes down together so the Choose buttons are always reachable without scrolling.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Financing</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">All 21 Service Finance plans from the pricing matrix, with real plan numbers. Five lead plans show first — 2012, 4212, 4132, 4107 and 41232, which is marked as our best option — and the rest sit behind a show-all toggle grouped by family.</p>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt">Payments calculate from the published payment factors. FEMA plans amortise after the promotional months. Same-as-cash plans show the balance due rather than a monthly figure.</li>
+<li style="margin-top:4pt">The rep enters the amount to finance, defaulting to the full job price. Plans the amount does not qualify for grey out with the reason shown.</li>
+<li style="margin-top:4pt">Every payment carries "Estimated payment, subject to credit approval."</li>
+<li style="margin-top:4pt"><strong>Dealer fees are split 50/50.</strong> The rep's half comes off their above-PAR commission on the worksheet. The percentage is never shown to reps or customers — it appears only in admin Settings.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Residential inspection SOP</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">The full SOP as a working screen rather than a document: protocol, tools checklist, a mandatory photo counter, interior and exterior roof audits with Yes/No/N/A and remarks, an A–F grade sheet with a homeowner-facing view, and roof database code pickers. Audit answers suggest a grade the rep can override. Everything files against the appointment, so the grade travels with the record.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Leads</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">Cindy assigns leads into each rep's account. Reps see their own grouped as Past due, Today, This week, Later and No date set, with the appointment date on each card. From the lead a rep can call the customer, set the appointment, mark contacted, or start the inspection.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Records and the commission worksheet</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">A record is created when the rep presents and updated when the customer signs, numbered from CRC-1041. Reps see their own records with the company signed total above them. On a record they can reopen and re-price, duplicate for a second option, email the estimate to the customer, mark it lost with a reason, add a note, send it to Roofr, or delete it.</p>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">The worksheet replaces the paper form: weekly, ten jobs maximum. Signed jobs fill themselves in tagged from the record; anything not in the app is added by hand and tagged as such. Commission pays on sold squares at the contracted price. Every calculated figure can be typed over, and any hand-edited row names who changed it. Year to date, current tier and distance to the next tier sit across the top. The rep submits the week to Jennifer, who approves it for payroll or reopens it.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Management screens</h2>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>Jobs board</strong> — six production stages, driven by signed records. Finance and production interlock on deposit approval.</li>
+<li style="margin-top:4pt"><strong>Finance</strong> — deposits at 50%, commission payable, margin watch.</li>
+<li style="margin-top:4pt"><strong>Office</strong> — leaderboard by above-PAR dollars, and production.</li>
+<li style="margin-top:4pt"><strong>Performance</strong> — for David, Justin, Dawson and Jennifer. Three periods, sales figures, a per-salesperson breakdown, money, and the production pipeline by stage.</li>
+<li style="margin-top:4pt"><strong>Settings</strong> — pricing grid editor, Service Finance plan table with dealer fees, team list, connections.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Logins</h2>
+<table style="width:100%;border-collapse:collapse;margin-top:9pt;font:400 9.5pt Newsreader,Georgia,serif">
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1101</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">David Henry</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Owner — every tab</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1102</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">Justin Lee</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Business development — every tab</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1103</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">Jackson Lee</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Sales — six field tabs</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1104</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">John Nava</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Sales — six field tabs</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1105</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">Dawson Henry</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Production — every tab</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1106</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">Jennifer Henry</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Finance — every tab</td></tr>
+<tr><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font:700 9pt 'Roboto Mono',ui-monospace,monospace;color:#04508E">1107</td><td style="padding:5pt 10pt 5pt 0;border-bottom:1px solid #E9EFF3;font-weight:700">Cindy DePree</td><td style="padding:5pt 0;border-bottom:1px solid #E9EFF3;color:#4A5A66">Office — leads, records, worksheets, settings</td></tr>
+</table>
+<p style="font:400 10pt/1.55 Newsreader,Georgia,serif;color:#4A5A66;margin:8pt 0 0;max-width:36em">Company code plus a four-digit PIN. No demo PINs are shown on the login screen.</p>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">How it runs</h2>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt">Works offline. Records save to the device and survive a restart.</li>
+<li style="margin-top:4pt">Installs to the iPad home screen and opens without browser chrome.</li>
+<li style="margin-top:4pt">One layout for iPad side-by-side, desktop, and iPhone with stacked sections and bottom navigation.</li>
+<li style="margin-top:4pt">Deployed to Netlify. Each build is versioned, so devices pick up updates on relaunch.</li>
+<li style="margin-top:4pt">Tracking starts 1 September 2026. All demo data was cleared, and every screen computes from real records.</li>
+<li style="margin-top:4pt">CSV export throughout, plus a weekly email hand-off to finance from both the Performance tab and the rep worksheet.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Open items</h2>
+<p style="font:400 11pt/1.62 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;max-width:36em;text-wrap:pretty">The one that matters most is the shared database.</p>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>No shared data between devices.</strong> Each iPad and computer holds its own records, so Jennifer only sees a worksheet submitted on her machine. The weekly email is the interim hand-off. Fixing this properly needs a backend and a developer.</li>
+<li style="margin-top:4pt"><strong>Roofr is one-way.</strong> Signed jobs can be pushed to Roofr through a Zapier webhook. Leads cannot flow back into the app until there is a database for them to land in. Roofr has no published developer API — the one key it issues exists to connect it to Zapier.</li>
+<li style="margin-top:4pt"><strong>CompanyCam</strong> photo pull is a placeholder pending OAuth.</li>
+<li style="margin-top:4pt"><strong>Minimum-payment formula</strong> for Service Finance plans 1006, 1012 and 1018 is estimated at 1.75% of the balance. The matrix gives no factor.</li>
+<li style="margin-top:4pt"><strong>Metal colour charts</strong> for SS26 and 29 Screw Down have not been supplied.</li>
+<li style="margin-top:4pt"><strong>Guide content</strong> — objection handling, warranty details, the package talk track and who-to-call are stubbed, waiting on your words rather than invented copy.</li>
+<li style="margin-top:4pt"><strong>Facet complexity bands</strong> await David's sign-off.</li>
+<li style="margin-top:4pt"><strong>Vaulted ceilings</strong> are recorded but carry no upcharge. Say the figure and it prices like the layer upcharge does.</li>
+<li style="margin-top:4pt"><strong>Guardian and Foundation</strong> carry no per-square upcharge, the ladder having ended at Stronghold.</li>
+</ul>
+
+<h2 style="font:700 14pt/1.2 Newsreader,Georgia,serif;color:#04508E;margin:20pt 0 0">Next up</h2>
+<ul style="font:400 11pt/1.6 Newsreader,Georgia,serif;color:#1C2B36;margin:7pt 0 0;padding-left:15pt;max-width:36em">
+<li style="margin-top:4pt"><strong>Drone photo upgrade packages</strong> at $250, $450 and $750, on a 70/30 split, selectable on any package before signature.</li>
+<li style="margin-top:4pt"><strong>Component breakdown on the spec sheet</strong> — every item that goes into the roofing package.</li>
+<li style="margin-top:4pt">Further upgrade options in other areas.</li>
+</ul>
+
+<div style="height:1px;background:#D8E2EA;margin:22pt 0 0"></div>
+<p style="font:400 9.5pt/1.5 Newsreader,Georgia,serif;color:#8A9AA6;margin:9pt 0 0;max-width:36em">A full technical specification — data model, permissions, sync rules and integration notes — is maintained separately as the Igloo Hub Build Spec.</p>
+</doc-page>
+</x-dc>
+</body>
+</html>
